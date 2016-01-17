@@ -1,0 +1,55 @@
+#login {
+	display: inline-block;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	background-color: #ffffff;
+	padding: 25px;
+
+}
+
+body {
+	background-color: white;
+}
+
+input {
+	display: block;
+}
+#loginWrapper {
+	margin-right: auto;
+	text-align: center;
+	display: block;
+	background-color: blue;
+	margin-left: auto;
+}
+
+
+input[type=radio] + label {
+    display:inline-block;
+    margin:-2px;
+    padding: 4px 12px;
+    	
+    border-color: #ddd;
+}
+
+input[type=radio] {
+    display:none; 
+    margin:10px;
+}
+
+input[type=radio]:checked + label { 
+   background-image: none;
+   background-color: gray;
+}
+
+.own_block {
+	display: block;
+	border: 2px solid black;
+}
+
+.inline_block {
+
+	display: inline-block;
+	width: 10%;
+	height: 100%;
+}
