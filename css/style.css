@@ -48,8 +48,21 @@ input[type=radio]:checked + label {
 }
 
 .inline_block {
+	vertical-align: top;
 
 	display: inline-block;
 	width: 10%;
+}
+
+#bracket-wrap {
 	height: 100%;
+}
+
+.radio-forms {
+	width: 10%;
+	position: absolute;
+}
+
+#total_submit {
+	position: relative;
 }
