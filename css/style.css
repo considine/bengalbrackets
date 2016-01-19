@@ -26,15 +26,16 @@ input {
 
 input[type=radio] + label {
     display:inline-block;
-    margin:-2px;
-    padding: 4px 12px;
+    width: 10%;
+	min-width: 100px;
     	
     border-color: #ddd;
+    text-align: center;
 }
 
 input[type=radio] {
     display:none; 
-    margin:10px;
+   
 }
 
 input[type=radio]:checked + label { 
@@ -44,6 +45,8 @@ input[type=radio]:checked + label {
 
 .own_block {
 	display: block;
+	width: 10%;
+	min-width: 100px;
 	border: 2px solid black;
 }
 

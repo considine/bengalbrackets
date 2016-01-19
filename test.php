@@ -3,6 +3,7 @@
 <html>
 <head>
 <title> Jack </title>
+<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
 <body>
@@ -10,11 +11,16 @@
 	$first_round = 8;
 	for ($x=0; $x<$first_round; $x++) {
 		echo '<form action="test.php" method="post" id="radio'.$x.'">
-			Man'.$x.':
-			<input type="radio" value="man" checked name="adult'.$x.'">
-			Woman'.$x.':
-			<input type="radio" value="woman" name = "adult'.$x.'">
-
+			<div class="own_block">
+			
+			<input type="radio" value="man" checked name="radioChoice'.$x.'" id="firstOpt'.$x.'">
+			<label for="firstOpt'.$x.'"> Man </label>
+			</div>
+			<div class="own_block">
+			<input type="radio" value="woman" name = "radioChoice'.$x.'" id="secondOpt'.$x.'">
+			<label for="secondOpt'.$x.'"> Woman </label>
+			
+			</div>
 		</form>';
 	}
 	
@@ -35,7 +41,7 @@
 		for (i = 0; i < <?php echo $first_round ?>; i++) { 
    
 
-			var adult = ($('input[name=adult' +  i +']:checked').val());
+			var adult = ($('input[name=radioChoice' +  i +']:checked').val());
 			document.getElementById("fight"+i).value = adult;
 		
 			
