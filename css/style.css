@@ -26,8 +26,7 @@ input {
 
 input[type=radio] + label {
     display:inline-block;
-    width: 10%;
-	min-width: 100px;
+    width: 200px;
     	
     border-color: #ddd;
     text-align: center;
@@ -45,8 +44,7 @@ input[type=radio]:checked + label {
 
 .own_block {
 	display: block;
-	width: 10%;
-	min-width: 100px;
+	width: 200px;
 	border: 2px solid black;
 }
 
@@ -54,7 +52,7 @@ input[type=radio]:checked + label {
 	vertical-align: top;
 
 	display: inline-block;
-	width: 10%;
+	width: 200px;
 }
 
 #bracket-wrap {
@@ -62,7 +60,7 @@ input[type=radio]:checked + label {
 }
 
 .radio-forms {
-	width: 10%;
+	
 	position: absolute;
 }
 
