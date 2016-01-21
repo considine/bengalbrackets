@@ -23,6 +23,15 @@ input {
 	margin-left: auto;
 }
 
+.r211 {
+	color: red;
+	background-color: white;
+	display: block;
+	visibility: visible;
+	height: 200px;
+	width: 200px;
+}
+
 
 input[type=radio] + label {
     display:inline-block;

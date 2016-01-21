@@ -4,6 +4,8 @@
 <head>
 <title> Jack </title>
 <link rel="stylesheet" type="text/css" href="css/style.css">
+
+
 </head>
 
 <body><!doctype html>
@@ -39,6 +41,7 @@
 	$first_round = 8;
 	$total_fights = 15;
 	$top = 100;
+	$round = 1;
 	
 
 	$results = $db->query("SELECT Name FROM Fighters WHERE Weight = 194");
@@ -51,21 +54,31 @@
 		if ($row = $results->fetch(PDO::FETCH_ASSOC)) {
 			$name = $row['Name'];
 		} else $name ="";
-		//need to make the id code
-		$digit1 = ceil($x/2);
-		$digit2 = ceil($x/4);
-		$digit3 = ceil($x/8);
-		$digit1 .= $digit2;
-		$digit1 .= $digit3;
+		//CREATE ID CODE TO INDICATE NEXT ROUND!!!!!!!!!!!
+		$y = ($x)%($first_round) + 1; //total fights plus 1 because that is the number of githers
+											// divided by 2 because we iterate twice every time through the loop
+											// and the incrementation to go from 0 index to 1 index
+		echo $y; 
+		$digit1 = ceil($y);
+		$digit2 = ceil($y/2);
+		$digit3 = ceil($y/4);
+		$digit3 .= $digit2;
+		$digit3 .= $digit1;
+		$digit1 = $digit3;
 
+		for ($y=1; $y<$round; $y++) {
+			$digit1 = substr($digit1, 1);
+		}
+		$digit1 .= "r";
+		$digit1 = strrev($digit1);
 
 
 
 		echo '<form action=""  id="radio'.$x.'" class="radio-forms" style="top: '.$top.'px">
 			<div class="own_block">
 			
-			<input type="radio" value="'.$name.'" name="radioChoice'.$x.'" id="firstOpt'.$x.'" class="'.$digit1.'">
-			<label id="'.$x.'" for="firstOpt'.$x.'"> '.$name.' </label>
+			<input type="radio" value="'.$name.'" name="radioChoice'.$x.'" id="firstOpt'.$x.'" class="'.$digit1.' '.'c'.$round.'">
+			<label id="'.$x.'" for="firstOpt'.$x.'"> '.$name.$digit1.' </label>
 			</div>';
 		if ($row = $results->fetch(PDO::FETCH_ASSOC)) {
 			$name = $row['Name'];
@@ -73,8 +86,8 @@
 
 			echo '
 			<div class="own_block">
-			<input type="radio" value="'.$name.'" name = "radioChoice'.$x.'" id="secondOpt'.$x.'" '.$digit1.'>
-			<label for="secondOpt'.$x.'"> '.$name.' </label>
+			<input type="radio" value="'.$name.'" name = "radioChoice'.$x.'" id="secondOpt'.$x.'" class="'.$digit1.' '.'c'.$round.'">
+			<label for="secondOpt'.$x.'"> '.$name.$digit1.' </label>
 			
 			</div>
 		</form>';
@@ -123,6 +136,8 @@
 			
 		}
 		$("#sub").submit();
+		var x = document.getElementsByClassName("r211");
+		alert ((x[0]).id);
 		
 	});
 
