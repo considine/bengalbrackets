@@ -49,6 +49,7 @@ input[type=radio] {
 input[type=radio]:checked + label { 
    background-image: none;
    background-color: gray;
+
 }
 
 .own_block {
@@ -56,12 +57,14 @@ input[type=radio]:checked + label {
 	width: 200px;
 	border: 2px solid black;
 }
-
+#whole_wrap {
+	width: 1200px;
+}
 .inline_block {
 	vertical-align: top;
 
 	display: inline-block;
-	width: 200px;
+	width: 250px;
 }
 
 #bracket-wrap {

@@ -17,6 +17,7 @@
 </head>
 
 <body>
+	<div id="whole_wrap">
 	<form method="post" action="<?php Echo($_SERVER['PHP_SELF']); ?>" >
 		<input type="text" name="newBoxer">
 		<input type="submit">
@@ -40,7 +41,9 @@
 
 	$first_round = 8;
 	$total_fights = 15;
-	$top = 100;
+	$top = 100; 
+	$starting_top = 0;
+	$top_increment = 80;
 	$round = 1;
 	$fight_number = 0;
 	
@@ -76,10 +79,10 @@
 
 
 		echo '<form action=""  id="radio'.$x.'" class="radio-forms" style="top: '.$top.'px">
-			<div class="own_block">
+			<div class="own_block" style="height: '.(20 + ($round-1)*10).'px">
 			
 			<input type="radio" value="'.$name.'" name="radioChoice'.$x.'" id="firstOpt'.$x.'" class="'.$digit1.' '.'c'.$round.$fight_number.'">
-			<label id="'.'l'.$round.$fight_number.'" for="firstOpt'.$x.'"> '.$name.' </label>
+			<label id="'.'l'.$round.$fight_number.'" for="firstOpt'.$x.'" style="height: '.(20 + ($round-1)*10).'px"> '.$name.' </label>
 			</div>';
 		if ($row = $results->fetch(PDO::FETCH_ASSOC)) {
 			$name = $row['Name'];
@@ -87,24 +90,32 @@
 		$fight_number++;
 
 			echo '
-			<div class="own_block">
+			<div class="own_block" style="height: '.(20 + ($round-1)*10).'px">
 			<input type="radio" value="'.$name.'" name = "radioChoice'.$x.'" id="secondOpt'.$x.'" class="'.$digit1.' '.'c'.$round.$fight_number.'">
-			<label id= "'.'l'.$round.$fight_number.'"for="secondOpt'.$x.'"> '.$name.' </label>
+			<label id= "'.'l'.$round.$fight_number.'"for="secondOpt'.$x.'" style="height: '.(20 + ($round-1)*10).'px"> '.$name.' </label>
 			
 			</div>
 		</form>';
 
-		$top += 75;
-		if (($x%2) === 0) {
-			$top -= 20;
-		}
-		else {
-			$top +=20;
+		$top += $top_increment;
+		if ($round === 1) {
+			if (($x%2) === 0 ) {
+				$top -= 20;
+			}
+			else {
+				$top +=20;
+			}
 		}
 		if (($x+1)%$first_round == 0) {
 		        	//iterate round
 			$fight_number = 0;
         	$round ++;
+        	$top_increment*=2;
+        	$starting_top += pow(2,($round-2)) * 40;
+        	
+
+        	$top = 100 + $starting_top;
+        	$top -= 10;
         	$iterator = 0;
         	$first_round = $first_round / 2;
 			echo '</div>';
@@ -146,6 +157,10 @@
 		var label_name = document.getElementById($(this).attr("id"));
 
 		var y = document.getElementById($(this).attr("for"));
+		if (y.value === "") {
+			alert ("hello");
+			return false;
+		}
 		//alert (y);
 		//alert (y.attr("id"));
 		var z = y.className.split(/\s+/);
@@ -177,6 +192,7 @@
    // echo "HELLO ";
 
 	?>
+</div>
 </body>
 
 
