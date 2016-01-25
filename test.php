@@ -25,6 +25,9 @@
 
 	<?php 
 		include ("database.php");
+		if (isset($_POST['bout1'])) {
+			echo "<h1> HI </h1>";
+		}
 		if (isset($_POST['newBoxer'])) {
 
 		
@@ -145,8 +148,12 @@
    
 
 			var adult = ($('input[name=radioChoice' +  i +']:checked').val());
+			if (!adult) {
+				alert("You have not submitted all fights \n Please submit fight " + (i+1));
+				return;
+			}
 			document.getElementById("fight"+i).value = adult;
-		
+			
 			
 		}
 		$("#sub").submit();
@@ -158,7 +165,7 @@
 
 		var y = document.getElementById($(this).attr("for"));
 		if (y.value === "") {
-			alert ("hello");
+
 			return false;
 		}
 		//alert (y);
@@ -171,7 +178,11 @@
 		r++; //iterate round
 		if (r !== 5) {
 	 		var label = document.getElementById("l" + r + r2);
-			
+	 		//alert("c" + r + r2);
+	 		var nextInput = document.getElementsByClassName("c" + r + r2);
+	 		nextInput[0].value = label_name.innerHTML;
+	 		//nextInput.val = label_name.innerHTML;
+			 
 			//set the label but also the value!!!!!
 
 			label.innerHTML = label_name.innerHTML;

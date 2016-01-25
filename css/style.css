@@ -10,6 +10,11 @@
 
 body {
 	background-color: white;
+	background-image: url("https://bengalbouts.nd.edu/wp-content/blogs.dir/71/files/homepage-slideshow/index_03.jpg");
+}
+html, body {
+    margin: 0;
+    height: 100%;
 }
 
 input {
@@ -48,17 +53,27 @@ input[type=radio] {
 
 input[type=radio]:checked + label { 
    background-image: none;
-   background-color: gray;
+   background-color: #d4cb00;
 
 }
+input[type=radio] + label:hover { 
+	background-color: red;
 
+}
 .own_block {
 	display: block;
 	width: 200px;
 	border: 2px solid black;
 }
 #whole_wrap {
-	width: 1200px;
+	width: 100%;
+	min-width: 1000px;
+
+	height: 100%;
+	display: inline-block;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
 }
 .inline_block {
 	vertical-align: top;
@@ -72,7 +87,7 @@ input[type=radio]:checked + label {
 }
 
 .radio-forms {
-	
+	background-color: white;
 	position: absolute;
 }
 
