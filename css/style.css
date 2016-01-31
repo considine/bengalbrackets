@@ -10,7 +10,7 @@
 
 body {
 	background-color: white;
-	background-image: url("https://bengalbouts.nd.edu/wp-content/blogs.dir/71/files/homepage-slideshow/index_03.jpg");
+	/*background-image: url("https://bengalbouts.nd.edu/wp-content/blogs.dir/71/files/homepage-slideshow/index_03.jpg");*/
 }
 html, body {
     margin: 0;
@@ -56,9 +56,11 @@ input[type=radio]:checked + label {
    background-color: #d4cb00;
 
 }
-input[type=radio] + label:hover { 
-	background-color: red;
+@media (min-width:641px) { 
+	input[type=radio] + label:hover { 
+		background-color: blue;
 
+	}
 }
 .own_block {
 	display: block;
