@@ -1,3 +1,4 @@
+
 <!doctype html>
 
 <html>
@@ -168,27 +169,77 @@
 
 			return false;
 		}
-		//alert (y);
-		//alert (y.attr("id"));
+		//get the name of the radio buttons of which the selection was made
+		var radio_name = y.name;
+		//get the value that was selected before
+		var previous_value = ($('input[name='+radio_name+']:checked').val());
+
 		var z = y.className.split(/\s+/);
 		
 
 		var r = z[1].substring(1, 2); //get the round of this label
 		var r2 = z[0].substring(1, 2); //get the next round;
+
 		r++; //iterate round
 		if (r !== 5) {
 	 		var label = document.getElementById("l" + r + r2);
 	 		//alert("c" + r + r2);
 	 		var nextInput = document.getElementsByClassName("c" + r + r2);
-	 		nextInput[0].value = label_name.innerHTML;
-	 		//nextInput.val = label_name.innerHTML;
-			 
-			//set the label but also the value!!!!!
 
+
+	 		if (nextInput[0].value) {
+	 			
+	 			var nextRoundRadio = nextInput[0].name;
+	 			
+	 			var next_value = ($('input[name='+nextRoundRadio+']:checked').val());
+	 			var check1 = "check1";
+	 			var check2 = "check2";
+	 			if (next_value) {
+	 				check1 = next_value.replace(/\s+/g, '');
+	 			}
+	 			if (previous_value) {
+	 				check2 = previous_value.replace(/\s+/g, '');
+	 			}
+
+
+	 			// need to get the codename for the next input
+
+	 			
+
+
+	 			//see if the winner of the next fight is now the loser of the next fight. Would casue a problem so we'd need to clear that fight
+	 			if (check1 === check2) {
+
+	 				var total_rounds_left = getRoundsLeft(r);
+	 				//alert (total_rounds_left);
+	 				for (i=0; i<total_rounds_left; i++) {
+	 					var next_label = document.getElementById("l" + (i+r) + z[0].substring(i+1, i+2));
+	 					//alert ("l" + (i+r) + z[0].substring(i+1, i+2));
+	 					//alert (z[0].substring(i+1, i+2));
+	 					var future_input =  document.getElementsByClassName("c" + (i+r) + z[0].substring(i+1, i+2));
+	 					var future_input_class =  "c" + (i+r) + z[0].substring(i+1, i+2);
+	 					if (next_label) {
+	 						//alert (future_input[0].value);
+	 						future_input[0].value = "";
+	 						future_input[0].checked = false;
+	 						next_label.innerHTML = "";
+	 					}
+	 				}
+	 			}
+
+	 		}
+
+
+	 		nextInput[0].value = label_name.innerHTML;
 			label.innerHTML = label_name.innerHTML;
 		}
+		function getRoundsLeft(r) {
+			var total_fights = <?php echo $total_fights ?> + 1;
+		 	var total_rounds = Math.log(total_fights) / Math.log(2);
+		 
+		 	return (total_rounds-r+1);
+		}
 		
-		//alert (v.length);
 	
 	});
 	</script>
