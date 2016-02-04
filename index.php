@@ -1,15 +1,4 @@
-
 <!doctype html>
-
-<html>
-<head>
-<title> Jack </title>
-<link rel="stylesheet" type="text/css" href="css/style.css">
-
-
-</head>
-
-<body><!doctype html>
 
 <html>
 <head>
@@ -19,24 +8,13 @@
 
 <body>
 	<div id="whole_wrap">
-	
 
 	<?php 
 		include ("database.php");
 		if (isset($_POST['bout1'])) {
 			echo "<h1> HI </h1>";
 		}
-		if (isset($_POST['newBoxer'])) {
-
-		
-			try {
-				$results = $db->prepare("INSERT INTO Fighters(Weight, Sequence, Name) VALUES(?, ?, ?)");
-				$results->execute(array(194, 1, $_POST['newBoxer']));
-			}
-			catch (exception $e) {
-				echo $e->getMessage();
-			}
-		}
+	
 
 
 
@@ -49,21 +27,29 @@
 	$fight_number = 0;
 	
 
-	$results = $db->query("SELECT Name FROM Fighters WHERE Weight = 194");
+	$results = $db->query("SELECT name FROM fighter_info");
 	// while ($row = $results->fetch(PDO::FETCH_ASSOC)) {
 	// 	echo $row['Name'];
 	// }
+	
 	//FIRST ROUND:
 	echo '<div class="inline_block">';
 	for ($x=0; $x<$total_fights; $x++) {
 		if ($row = $results->fetch(PDO::FETCH_ASSOC)) {
-			$name = $row['Name'];
+			$name = $row['name'];
+
 		} else $name ="";
+		if ($round !== 1) {
+			$name="";
+		}
+		$netid = $row['netid'];
+
+		echo $round;
 		//CREATE ID CODE TO INDICATE NEXT ROUND!!!!!!!!!!!
 		$y = ($x)%($first_round) + 1; //total fights plus 1 because that is the number of githers
 											// divided by 2 because we iterate twice every time through the loop
-											// and the incrementation to go from 0 index to 1 index
-		echo $y; 
+					// and the incrementation to go from 0 index to 1 index
+		
 		$digit1 = ceil($y);
 		$digit2 = ceil($y/2);
 		$digit3 = ceil($y/4);
@@ -80,18 +66,25 @@
 
 
 		echo '<form action=""  id="radio'.$x.'" class="radio-forms" style="top: '.$top.'px">
+
 			<div class="own_block" style="height: '.(20 + ($round-1)*10).'px">
-			
+			<img src="img/info.png" class="info_image'.$round.'" style="visibility: hidden;" id="'.$netid.'">
 			<input type="radio" value="'.$name.'" name="radioChoice'.$x.'" id="firstOpt'.$x.'" class="'.$digit1.' '.'c'.$round.$fight_number.'">
-			<label id="'.'l'.$round.$fight_number.'" for="firstOpt'.$x.'" style="height: '.(20 + ($round-1)*10).'px"> '.$name.' </label>
+			<label id="'.'l'.$round.$fight_number.'" for="firstOpt'.$x.'" style="height: '.(20 + ($round-1)*10).'px"> '.$name.'</label>
 			</div>';
 		if ($row = $results->fetch(PDO::FETCH_ASSOC)) {
-			$name = $row['Name'];
+			$name = $row['name'];
 		} else $name ="";
+		if ($round !== 1) {
+			$name="";
+		}
 		$fight_number++;
+		$netid = $row['netid'];
+		echo $netid;
 
 			echo '
 			<div class="own_block" style="height: '.(20 + ($round-1)*10).'px">
+			<img src="img/info.png" class="info_image'.$round.'" style="visibility: hidden;" id="'.$netid.'">
 			<input type="radio" value="'.$name.'" name = "radioChoice'.$x.'" id="secondOpt'.$x.'" class="'.$digit1.' '.'c'.$round.$fight_number.'">
 			<label id= "'.'l'.$round.$fight_number.'"for="secondOpt'.$x.'" style="height: '.(20 + ($round-1)*10).'px"> '.$name.' </label>
 			
@@ -159,6 +152,10 @@
 		
 	});
 
+
+	$(".info_image1").click(function () {
+		alert ('hello');
+	});
 	$("label").click(function (event) {
 		var label_name = document.getElementById($(this).attr("id"));
 
@@ -262,9 +259,6 @@
 	?>
 </div>
 </body>
-
-
-</html></body>
 
 
 </html>

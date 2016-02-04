@@ -7,6 +7,41 @@
 	padding: 25px;
 
 }
+#boxer_info {
+	text-align: center;
+	display: block;
+}
+.boxer_input {
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+
+}
+
+.info_image1 {
+	clear: left;
+	vertical-align: bottom;
+	visibility: visible !important;
+}
+
+.1pic {
+	visibility: hidden;
+}
+#userpic {
+	margin: 5px;
+}
+.table_wrap {
+	display: block;
+	border: solid 2px black;
+	width: 75%;
+	min-width: 500px;
+}
+.inner_table_wrap {
+	display: inline-block;
+	border: solid 2px black;
+	width: 70%;
+	min-width: 300px;
+}
 
 body {
 	background-color: white;
@@ -16,6 +51,7 @@ html, body {
     margin: 0;
     height: 100%;
 }
+
 
 input {
 	display: block;
@@ -39,9 +75,7 @@ input {
 
 
 input[type=radio] + label {
-    display:inline-block;
-    width: 200px;
-    	
+    display:inline-block; 	
     border-color: #ddd;
     text-align: center;
 }
