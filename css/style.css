@@ -7,15 +7,26 @@
 	padding: 25px;
 
 }
-#boxer_info {
-	text-align: center;
-	display: block;
-}
+
 .boxer_input {
 	display: block;
 	margin-right: auto;
 	margin-left: auto;
 
+}
+#whole_wrap {
+	background-image: 
+}
+
+#main-nav {
+
+    padding-bottom: 10px;
+    width: 80%;
+    margin-left: auto;
+    height: 30px;
+    margin-right: auto;
+    min-width: 1000px;
+    text-align: center
 }
 
 .info_image1 {
@@ -32,6 +43,7 @@
 }
 .table_wrap {
 	display: block;
+	background-color: white;
 	border: solid 2px black;
 	width: 75%;
 	min-width: 500px;
@@ -42,10 +54,21 @@
 	width: 70%;
 	min-width: 300px;
 }
+#boxer_info {
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	width: 518px;
+	height: 100px;
+	visibility: hidden;
+}
 
+#index{
+	
+	/*background-color: #000000;*/
+}
 body {
 	background-color: white;
-	/*background-image: url("https://bengalbouts.nd.edu/wp-content/blogs.dir/71/files/homepage-slideshow/index_03.jpg");*/
 }
 html, body {
     margin: 0;
@@ -77,6 +100,9 @@ input {
 input[type=radio] + label {
     display:inline-block; 	
     border-color: #ddd;
+    overflow: hidden;
+    width: 200px;
+    font-family: sans-serif;
     text-align: center;
 }
 
@@ -87,32 +113,48 @@ input[type=radio] {
 
 input[type=radio]:checked + label { 
    background-image: none;
-   background-color: #d4cb00;
+   background-color: #dcb439
 
+;
+
+}
+
+td {
+	font-family: helvetica;
+	color: black;
 }
 @media (min-width:641px) { 
 	input[type=radio] + label:hover { 
-		background-color: blue;
+
+		background-color: #002b5b;
+		color: white;
 
 	}
+
+}
+#weight_header {
+	color: #dcb439;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    text-align: center
 }
 .own_block {
 	display: block;
+	overflow: hidden;
 	width: 200px;
 	border: 2px solid black;
 }
 #whole_wrap {
-	width: 100%;
+	width: 80%;
 	min-width: 1000px;
+	background-image: url("http://www.archives.nd.edu/about/news/wp-content/uploads/2012/03/GPHR-45-1573-01.jpg");
 
-	height: 100%;
-	display: inline-block;
+	height: 600px;
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
 }
 .inline_block {
-	vertical-align: top;
+	vertical-align: center;
 
 	display: inline-block;
 	width: 250px;
@@ -128,5 +170,59 @@ input[type=radio]:checked + label {
 }
 
 #total_submit {
-	position: relative;
+	 position: fixed; /* or absolute */
+	 height: 50px;
+	 width: 200px;
+	 font-size: large;
+	 background-color: #022b5b;
+	 color: white;
+	 visibility: hidden;
+  top: 50%;
+  left: 50%;
+
+	/*visibility: hidden;*/
+}
+
+
+
+
+
+
+
+
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #022b5b;
+}
+
+li {
+    float: none;
+     display: inline-block;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    font-size: large;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+    background-color: #dcb439;
+}
+#selected_weight {
+	background-color: #dcb439;
+}
+
+a {
+    display: block;
+    padding: 8px;
+    
 }

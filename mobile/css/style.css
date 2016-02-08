@@ -1,0 +1,39 @@
+.mobile_title {
+	text-align: center;
+	width: 100%;
+	text-align: justify;
+}
+body {
+	background-color: blue;
+}
+
+h1 { font-family: 'Verdana', Arial, Helvetica, sans-serif; font-size:20px; }
+input[type=radio] + label {
+    display:inline-block; 	
+    border-color: #ddd;
+    overflow: hidden;
+    background-size: 100%;
+    font-family: sans-serif;
+    
+    text-align: center;
+}
+
+input[type=radio] {
+    display:none; 
+   
+}
+
+#mobile_form {
+	margin-right: auto;
+	margin-left: auto;
+	text-align: center;
+}
+
+input[type=radio]:checked + label { 
+   background-image: none;
+   background-color: #dcb439
+
+
+;
+
+}

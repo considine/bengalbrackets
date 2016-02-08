@@ -1,3 +1,34 @@
+<?php
+	require_once 'mobiledetect/Mobile_Detect.php';
+	$detect = new Mobile_Detect;
+		if ($detect->isMobile() ) {
+			header("Location: http://m.bengalbrackets.com");
+			
+		}
+		$total_fights = 15;
+		include ("submission.php");
+		
+		//define the weight classes
+		$weight_classes = array (
+			"135",
+			"145",
+			"149",
+			"167",
+			"178",
+			"184",
+			"196",
+			"Heavyweight"
+			);
+		if (!isset ($_GET['weight'])) {
+			echo '<META http-equiv="refresh" content="0;url=http://bengalbrackets.com/brackets/index.php?weight='.$weight_classes[0].'">';//"</h1>';
+		}
+		$weight = $_GET['weight'];
+		if (!in_array($weight, $weight_classes)) {
+			//header("Location: http://bengalbrackets.com");
+		}
+
+
+?>
 <!doctype html>
 
 <html>
@@ -6,20 +37,48 @@
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
-<body>
-	<div id="whole_wrap">
-
-	<?php 
-		include ("database.php");
-		if (isset($_POST['bout1'])) {
-			echo "<h1> HI </h1>";
-		}
+<body id="index">
 	
+	<?php 
+		if (strcmp($weight, "Heavyweight")) {
+			echo '<h3 id="weight_header">  '.$weight.'-lb Weight Class Bracket </h3>'; 
+		}
+		else {
+			echo '<h3 id="weight_header">  Heavyweight Class Bracket </h3>'; 
+		
+		}
 
+	?>
+
+	<div id="main-nav">
+		
+		<ul>
+			<?php 
+			$number_classes = count($weight_classes);
+			$number_classes --;
+			
+			for ($x=0; $x<count($weight_classes); $x++) {
+
+				echo '<li> <a href="http://bengalbrackets.com/brackets/index.php?weight='.$weight_classes[$x].'"';
+				if (strcmp($weight, $weight_classes[$x]) === 0) 
+					echo ' id="selected_weight" ';
+				echo '> '.$weight_classes[$x];
+				if ($x !== $number_classes) {
+					echo '-lbs  </a> </li>';
+				}
+				else {
+					echo '  </a> </li>';
+				}
+				
+			}
+			?>
+		</ul>
+	</div>
+	<div id="whole_wrap">
+	<?php
 
 
 	$first_round = 8;
-	$total_fights = 15;
 	$top = 100; 
 	$starting_top = 0;
 	$top_increment = 80;
@@ -27,7 +86,7 @@
 	$fight_number = 0;
 	
 
-	$results = $db->query("SELECT name FROM fighter_info");
+	$results = $db->query("SELECT name, netid FROM fighter_info");
 	// while ($row = $results->fetch(PDO::FETCH_ASSOC)) {
 	// 	echo $row['Name'];
 	// }
@@ -44,7 +103,7 @@
 		}
 		$netid = $row['netid'];
 
-		echo $round;
+	
 		//CREATE ID CODE TO INDICATE NEXT ROUND!!!!!!!!!!!
 		$y = ($x)%($first_round) + 1; //total fights plus 1 because that is the number of githers
 											// divided by 2 because we iterate twice every time through the loop
@@ -67,8 +126,8 @@
 
 		echo '<form action=""  id="radio'.$x.'" class="radio-forms" style="top: '.$top.'px">
 
-			<div class="own_block" style="height: '.(20 + ($round-1)*10).'px">
-			<img src="img/info.png" class="info_image'.$round.'" style="visibility: hidden;" id="'.$netid.'">
+			<div class="own_block '.$round.'" style="height: '.(20 + ($round-1)*10).'px" id="'.$netid.'">
+			
 			<input type="radio" value="'.$name.'" name="radioChoice'.$x.'" id="firstOpt'.$x.'" class="'.$digit1.' '.'c'.$round.$fight_number.'">
 			<label id="'.'l'.$round.$fight_number.'" for="firstOpt'.$x.'" style="height: '.(20 + ($round-1)*10).'px"> '.$name.'</label>
 			</div>';
@@ -80,11 +139,10 @@
 		}
 		$fight_number++;
 		$netid = $row['netid'];
-		echo $netid;
-
+		
 			echo '
-			<div class="own_block" style="height: '.(20 + ($round-1)*10).'px">
-			<img src="img/info.png" class="info_image'.$round.'" style="visibility: hidden;" id="'.$netid.'">
+			<div class="own_block '.$round.'" style="height: '.(20 + ($round-1)*10).'px"  id="'.$netid.'">
+			
 			<input type="radio" value="'.$name.'" name = "radioChoice'.$x.'" id="secondOpt'.$x.'" class="'.$digit1.' '.'c'.$round.$fight_number.'">
 			<label id= "'.'l'.$round.$fight_number.'"for="secondOpt'.$x.'" style="height: '.(20 + ($round-1)*10).'px"> '.$name.' </label>
 			
@@ -94,10 +152,10 @@
 		$top += $top_increment;
 		if ($round === 1) {
 			if (($x%2) === 0 ) {
-				$top -= 20;
+				$top -= 25;
 			}
 			else {
-				$top +=20;
+				$top +=25;
 			}
 		}
 		if (($x+1)%$first_round == 0) {
@@ -105,7 +163,7 @@
 			$fight_number = 0;
         	$round ++;
         	$top_increment*=2;
-        	$starting_top += pow(2,($round-2)) * 40;
+        	$starting_top += pow(2,($round-2)) * 30;
         	
 
         	$top = 100 + $starting_top;
@@ -124,6 +182,7 @@
 	?>
 	<form action="<?php Echo($_SERVER['PHP_SELF']); ?>" method="post" id="sub"> 
 		<?php
+		echo '<input type="hidden" name="weight_class_number">';
 		for ($j=0; $j<$total_fights; $j++) {
 			echo '
 			<input type="hidden" name="bout'.$j.'" id="fight'.$j.'">
@@ -147,16 +206,44 @@
 			
 			
 		}
-		alert ('hi');
-		$("#sub").submit();
+		$('#sub').submit();
+		
+		
 		
 	});
 
 
-	$(".info_image1").click(function () {
-		alert ('hello');
+	$(".own_block.1").mouseover (function() {
+		document.getElementById('boxer_info').src = "http://bengalbrackets.com/brackets/eachboxer.php?boxer="+$(this).attr("id");
+
+		$("#boxer_info").css("visibility", "visible");
+		
+
+		//autoResize('boxer_info');
+	});
+	function autoResize(id){
+	    var newheight;
+	    var newwidth;
+
+	    if(document.getElementById){
+	        newheight = document.getElementById(id).contentWindow.document .body.scrollHeight;
+	        newwidth = document.getElementById(id).contentWindow.document .body.scrollWidth;
+	    }
+
+	    document.getElementById(id).height = (newheight) + "px";
+	    document.getElementById(id).width = (newwidth) + "px";
+	}
+	$(".own_block.1").mouseout (function() {
+		$("#boxer_info").css("visibility", "hidden");
 	});
 	$("label").click(function (event) {
+
+		//for every fight, make sure the innerhtml of the label 
+		// is the same as the php
+
+
+
+
 		var label_name = document.getElementById($(this).attr("id"));
 
 		var y = document.getElementById($(this).attr("for"));
@@ -224,8 +311,14 @@
 
 	 		}
 
-
+	 		
 	 		nextInput[0].value = label_name.innerHTML;
+	 		//if ($('input[name=radioChoice' + number_fights+']').is(':checked')) {
+	 		//if ($('input[type=radio]:checked').size()  === number_fights)
+	 		//	alert ('radioChoice' + number_fights );
+
+	 		//}
+	 		
 			label.innerHTML = label_name.innerHTML;
 		}
 		function getRoundsLeft(r) {
@@ -234,29 +327,28 @@
 		 
 		 	return (total_rounds-r+1);
 		}
+		var number_fights = <?php echo $total_fights; ?>-1;
+		if ($('input[type=radio]:checked').size() === number_fights) {
+			$('#total_submit').css("visibility", "visible");
+		}
+		else {
+			$('#total_submit').css("visibility", "hidden");
+		}
 		
 	
 	});
+	function resizeIframe(obj) {
+		obj.style.height = "50px";
+   	 obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+  	}
+	
 	</script>
-	<?php 
-	$submissions = array();
-	$submitted = True;
-	for ($j=0; $j<$total_fights; $j++) {
-		if (isset($_POST['bout'.$j])) {
-	    	$submissions[] = $_POST['bout'.$j];
-	    }
-	    else {
-	    	$submitted = False;
-	    }
+	
 
-	}
-	if ($submitted) {
-		   echo count($submissions);
-		}
+	
+	<iframe id="boxer_info" width="518" src="http://bengalbrackets.com/brackets/eachboxer.php?boxer=Mschaef4" onload="resizeIframe(this);"> </iframe>
+	
 
-   // echo "HELLO ";
-
-	?>
 </div>
 </body>
 
