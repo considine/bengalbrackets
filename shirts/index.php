@@ -5,7 +5,11 @@
 			header("Location: http://m.bengalbrackets.com");
 			
 		}
-			$weight_classes = array (
+		$total_fights = 15;
+		include ("submission.php");
+		
+		//define the weight classes
+		$weight_classes = array (
 			"135",
 			"145",
 			"149",
@@ -15,30 +19,13 @@
 			"196",
 			"Heavyweight"
 			);
-		//die();
-		$url = 'http://bengalbrackets.com/brackets/index.php?weight=';
-		//$url = 'http://localhost:8888/bengalbrackets/index.php?weight=';
-		
-		$total_fights = 15;
 		if (!isset ($_GET['weight'])) {
-			//echo '<META http-equiv="refresh" content="0;url='.$url.$weight_classes[0].'">';//"</h1>';
-		}
-		$weight = $_GET['weight'];
-		include ("submission.php");
-		
-		//define the weight classes
-	
-		// if (!isset($_POST['email'])) {
-		// 	header("Location: localhost:8888/bengalbrackets/signup.php");
-		// }
-		if (!isset ($_GET['weight'])) {
-			echo '<META http-equiv="refresh" content="0;url='.$url.$weight_classes[0].'">';//"</h1>';
+			echo '<META http-equiv="refresh" content="0;url=http://bengalbrackets.com/brackets/index.php?weight='.$weight_classes[0].'">';//"</h1>';
 		}
 		$weight = $_GET['weight'];
 		if (!in_array($weight, $weight_classes)) {
-			header("Location: http://bengalbrackets.com");
+			//header("Location: http://bengalbrackets.com");
 		}
-		
 
 
 ?>
@@ -57,7 +44,7 @@
 			echo '<h3 id="weight_header">  '.$weight.'-lb Weight Class Bracket </h3>'; 
 		}
 		else {
-			echo '<h3 id="weight_header">  '.$weight.'  Bracket </h3>'; 
+			echo '<h3 id="weight_header">  Heavyweight Class Bracket </h3>'; 
 		
 		}
 
@@ -66,14 +53,13 @@
 	<div id="main-nav">
 		
 		<ul>
-			<li> <a href="http://bengalbrackets.com"> Home Page </a> </li>
 			<?php 
 			$number_classes = count($weight_classes);
 			$number_classes --;
 			
 			for ($x=0; $x<count($weight_classes); $x++) {
 
-				echo '<li> <a href="'.$url.$weight_classes[$x].'"';
+				echo '<li> <a href="http://bengalbrackets.com/brackets/index.php?weight='.$weight_classes[$x].'"';
 				if (strcmp($weight, $weight_classes[$x]) === 0) 
 					echo ' id="selected_weight" ';
 				echo '> '.$weight_classes[$x];
@@ -99,8 +85,8 @@
 	$round = 1;
 	$fight_number = 0;
 	
-	
-	$results = $db->query("SELECT name, netid, weight_class, bye FROM fighter_info WHERE weight_class =  '".$weight."'");
+
+	$results = $db->query("SELECT `name`, `netid`, `weight_class` FROM fighter_info WHERE `weight_class` =  '".mysql_real_escape_string($weight)."'");
 	// while ($row = $results->fetch(PDO::FETCH_ASSOC)) {
 	// 	echo $row['Name'];
 	// }
@@ -207,7 +193,6 @@
 	<button id="total_submit"> Submit Bracket </button>
 	<script type="text/javascript" src="jquery.txt"> </script>
 	<script type="text/javascript">
-	
 	$("#total_submit").click(function () {
 		for (i = 0; i < <?php echo $total_fights ?>; i++) { 
    

@@ -1,13 +1,14 @@
 .mobile_title {
 	text-align: center;
 	width: 100%;
-	text-align: justify;
+  font-size: 200%;
+	text-align: center;
 }
 body {
-	background-color: blue;
+	background-color: white;
 }
 
-h1 { font-family: 'Verdana', Arial, Helvetica, sans-serif; font-size:20px; }
+h1 { font-family: 'Verdana', Arial, Helvetica, sans-serif; font-size:120%; }
 input[type=radio] + label {
     display:inline-block; 	
     border-color: #ddd;
@@ -17,10 +18,32 @@ input[type=radio] + label {
     
     text-align: center;
 }
-
+.form_container {
+  visibility: hidden;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+#form0 {
+  visibility: visible;
+}
+label {
+  width: 80%;
+}
 input[type=radio] {
     display:none; 
    
+}
+.fight_head {
+  position: absolute;
+}
+
+#next_button {
+  visibility: hidden;
+}
+#last_button {
+  visibility: hidden;
 }
 
 #mobile_form {

@@ -34,7 +34,7 @@
 			
 		echo '</table>';
 		echo '</div>';
-		echo '<img src="https://i0.wp.com/static.teamtreehouse.com/assets/content/default_avatar-1194852ae95df3501aed27c0a96da653.png?ssl=1" width="120" id="userpic">';
+		echo '<img src="http://gdurl.com/Feic" width="120" id="userpic">';
 		echo '</div>';
 
 		
