@@ -16,8 +16,8 @@
 			"Heavyweight"
 			);
 		//die();
-		$url = 'http://bengalbrackets.com/brackets/index.php?weight=';
-		//$url = 'http://localhost:8888/bengalbrackets/index.php?weight=';
+		//$url = 'http://bengalbrackets.com/brackets/index.php?weight=';
+		$url = 'http://localhost:8888/bengalbrackets/index.php?weight=';
 		
 		$total_fights = 15;
 		if (!isset ($_GET['weight'])) {
@@ -93,6 +93,7 @@
 
 
 	$first_round = 8;
+	$first_round_perm = $first_round;
 	$top = 100; 
 	$starting_top = 0;
 	$top_increment = 80;
@@ -207,7 +208,8 @@
 	<button id="total_submit"> Submit Bracket </button>
 	<script type="text/javascript" src="jquery.txt"> </script>
 	<script type="text/javascript">
-	
+
+	$(document).ready(checkForByes);
 	$("#total_submit").click(function () {
 		for (i = 0; i < <?php echo $total_fights ?>; i++) { 
    
@@ -230,7 +232,9 @@
 
 	$(".own_block.1").mouseover (function() {
 		document.getElementById('boxer_info').src = "http://bengalbrackets.com/brackets/eachboxer.php?boxer="+$(this).attr("id");
-
+		if (!$(this).attr("id")) {
+			return false;
+		}
 		$("#boxer_info").css("visibility", "visible");
 		
 
@@ -251,8 +255,14 @@
 	$(".own_block.1").mouseout (function() {
 		$("#boxer_info").css("visibility", "hidden");
 	});
-	$("label").click(function (event) {
+	
+	$("label").click(clicked);
 
+
+		function clicked () {
+		if ($(this).attr("class") === "readonly") {
+			return false;
+		}
 		//for every fight, make sure the innerhtml of the label 
 		// is the same as the php
 
@@ -351,11 +361,41 @@
 		}
 		
 	
-	});
+	}
 	function resizeIframe(obj) {
 		obj.style.height = "50px";
    	 obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
   	}
+	
+	function checkForByes () {
+		//iterate through all inputs, if we find a BYE, set other value to true
+		for (i=0; i< <?php echo $first_round_perm; ?>; i++) {
+			
+			//var label1 = $("label[for='"+'#firstOpt' + i"']");
+			var label2 = $('label[for=secondOpt'+i+']');
+			var label1 = $('label[for=firstOpt'+i+']');
+
+			//alert (label1.html());
+			
+			if ($('#firstOpt' + i).attr("value")==="BYE") {
+				$('#secondOpt' + i).attr("checked", true);
+				$('#firstOpt' + i).addClass("readonly");
+				$('#secondOpt' + i).addClass("readonly");
+				label1.addClass("readonly");
+				label2.addClass("readonly");
+			}
+			if ($('#secondOpt' + i).attr("value")==="BYE") {
+
+				$('#firstOpt' + i).attr("checked", true);
+				$('#firstOpt' + i).addClass("readonly");
+				$('#secondOpt' + i).addClass("readonly");
+				label1.addClass("readonly");
+				label2.addClass("readonly");
+
+			}
+		}
+	}
+	
 	
 	</script>
 	
