@@ -5,7 +5,7 @@
 			//header("Location: http://bengalbrackets.com");
 		}
 		include ("database.php"); // todo get path
-
+		
 		//first order of business is to get all of the boxers!
 		$round = 1;
 		$fight = 1;
@@ -91,7 +91,13 @@
 			for ($x=0; $x<$total_fights; $x++) {
 				$row = $results->fetch(PDO::FETCH_ASSOC);
 				echo '<div class="form_container" id="form'.$x.'">';
-				echo '<section class="top_boxer">';
+				if ($x < $first_round) {
+					echo '<section class="'.$x.' top_boxer '.$row['name'].'">';
+				}
+				else {
+					echo '<section class="'.$x.' top_boxer">';
+				}
+				
 				echo '<input name="choice'.$x.'" type="radio" id="first'.$x.'">';
 
 				echo '<label class="lform'.$x.'" for="first'.$x.'""> <strong>'.$row['name'].'</strong></label>';
@@ -103,8 +109,13 @@
 				echo '<br />';
 				echo '<br />';
 				echo '</section>';
-				echo '<section class="bottom-boxer">';
 				$row = $results->fetch(PDO::FETCH_ASSOC);
+				if ($x < $first_round) {
+					echo '<section class="'.$x.' bottom_boxer '.$row['name'].'">';
+				}
+				else {
+					echo '<section class="'.$x.' bottom_boxer">';
+				}
 				
 				echo '<input name="choice'.$x.'" type="radio" id="second'.$x.'">';
 				echo '<label class="lform'.$x.'" for="second'.$x.'"> <strong> '.$row['name'].' </strong> </label>';
@@ -114,8 +125,9 @@
 				echo '<label class="lform'.$x.'" for="second'.$x.'""><i>'.$row['quote'].'</i></label>';
 				echo '<br />';
 				echo '</section>';
-				if ($x==5) {
+				if ($x== $total_fights - 1) {
 					echo '<br />';
+
 					echo '<button> Submit weightclass! </button>';
 				}
 				echo '</div>';
@@ -124,11 +136,6 @@
 
 			</div>
 			</div>
-			<div>
-			
-		 
-		</div>
-			
 			<form method="post" id="sub" action="<?php Echo($_SERVER['PHP_SELF']); ?>">
 				<?php 
 					for ($x=0;$x<$total_fights;$x++) {
@@ -144,14 +151,24 @@
 				location.reload();
 			})
 			$('label').click(function () {
+				//set hidden input value:
 				var myClass = getClass($(this)); 
-			
 				myClass = getForm(myClass);
-
-				
 				lastChar = getNextFight(myClass);
+				var thisFight = lastChar -1;
+				var laterRound = jackMap(thisFight);
+				alert (laterRound.attr("class"));
+				//var mappedFight = $('.lform' + laterRound).parent().html();
+				//alert (mappedFight);
+				var hiddenIn = document.getElementById('fight' + (lastChar-1));
+				//get class list of the section
+				var classList = $(this).parent().attr('class').split(/\s+/);
+				laterRound.addClass(classList[2]);
+				laterRound.addClass(classList[3]);
+				hiddenIn.value = classList[2] + " " + classList[3];
+
 				if (lastChar > 14) {
-					alert ('stop');
+					//alert ('stop');
 					return false;
 				}
 				else {
@@ -186,9 +203,42 @@
 				backTrack( ($('#last_button').attr('class')));
 				
 			});
-			$('section').click (function () {
-				var classe = $(this).attr('class');
-				alert($(classe > 'label').attr('class'));
+			function jackMap (fight) {
+				if (fight < 8) {
+					//if odd top if even bottom
+
+					if ((fight % 2) == 0) {
+						return $('.top_boxer.'+(fight+8));
+					}
+					else {
+						
+						return $('.bottom_boxer.'+(fight+7));
+					}
+				}
+				else if (fight < 12) {
+					if ((fight % 2) == 0) {
+						return $('.top_boxer.'+(fight+4));
+					}
+					else {
+						return $('.bottom_boxer.'+(fight+3));
+					}
+				}
+				else if (fight < 14) {
+					if ((fight % 2) == 0) {
+						return $('.bottom_boxer.'+(fight+2));
+					}
+					else {
+						return $('.bottom_boxer.'+(fight+1));
+					}
+				}
+				
+
+
+
+
+			}
+			$('section').on ("taphold", function () {
+				$(this).css("background-color", "white");
 			});
 			function getForm (myClass) {
 				return myClass.substr(1);

@@ -52,6 +52,7 @@
 	display: inline-block;
 	border: solid 2px black;
 	width: 70%;
+	vertical-align: top;
 	min-width: 300px;
 }
 #boxer_info {

@@ -3,12 +3,19 @@
 	$submissions = array();
 	$cols = array();
 	$cont = 24;
-	$cols[] = "netID";
+	$cols[] = "Email";
 	$cols[] = "weight";
 	$submitted = True;
-	$submissions[] = "netID";
+	session_start();
+	$submissions[] = $_SESSION['email'];
+	$weight_sub = $_POST['weight_class_number'];
 	$submissions[] = $weight_sub;
 	
+	if (isset($_POST['weight_class_number'])) {
+		$sql1 = "INSERT INTO boxer_submissions(netid, class) VALUES(?, ?)";
+		$results1 = $db -> prepare ($sql1);
+		$results1->execute(array ($_SESSION['email'],$weight_sub  ));
+	}
 
 	for ($j=0; $j<$total_fights; $j++) {
 		if (isset($_POST['bout'.$j])) {
@@ -23,8 +30,8 @@
 	 //$results = $db->prepare("INSERT INTO friends(username, password) VALUES(?, ?)");
 	if ($submitted) {
 		
-		echo '<script type="text/javascript"> alert("hello") </script>';
-	 	
+		
+	 
 	 	$columns = implode ($cols, ', ');
 	 	$sql = "INSERT INTO submissions(".$columns.") VALUES (";
 	 	for ($j=0; $j<$total_fights+2; $j++) {
@@ -32,11 +39,18 @@
 			else $sql.= "?, ";
 	 	}
 	 	// die ($sql);
-	 	$results = $db->prepare ($sql);
-	 	var_dump($sql);
-	 	var_dump($submissions);
+	 	
+	 	
+	 	
+	 	try {
+	 		$results = $db->prepare ($sql);
+	 		$results->execute($submissions);
+	 	}
+	 	catch (exception $e) {
+	 		header("Location: http://bengalbrackets.com");
+	 	}
 	 
-	 	$results->execute($submissions);
+	 	
 	 	
 	 	
 		//$results = $db->prepare("INSERT INTO submissions(netID, winner) VALUES(?)");

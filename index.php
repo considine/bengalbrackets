@@ -2,35 +2,50 @@
 	require_once 'mobiledetect/Mobile_Detect.php';
 	$detect = new Mobile_Detect;
 		if ($detect->isMobile() ) {
-			header("Location: http://m.bengalbrackets.com");
+			//header("Location: http://m.bengalbrackets.com");
 			
 		}
+
+		if (isset ($_POST['bout0'])) {
+			session_start();
+			echo $_SESSION['email'];
+		}
+
+
 			$weight_classes = array (
-			"135",
-			"145",
-			"149",
-			"167",
-			"178",
-			"184",
-			"196",
-			"Heavyweight"
+			"137",
+			"144",
+			"152",
+			"157",
+			"163",
+			"175",
+			"182",
+			"191",
+			"207",
+			"Light-Heavy",
+			
+
 			);
-		//die();
-		//$url = 'http://bengalbrackets.com/brackets/index.php?weight=';
-		$url = 'http://localhost:8888/bengalbrackets/index.php?weight=';
+		session_start();
+		if (isset($_SESSION['email'])) {
+			$email = $_SESSION['email'];
+		}
+		else {
+			echo '<META http-equiv="refresh" content="0;url=http://bengalbrackets.com">';//"</h1>';
+		}
+		
+		$url = 'http://bengalbrackets.com/brackets/index.php?weight=';
+		//$url = 'http://localhost:8888/bengalbrackets/index.php?weight=';
 		
 		$total_fights = 15;
 		if (!isset ($_GET['weight'])) {
 			//echo '<META http-equiv="refresh" content="0;url='.$url.$weight_classes[0].'">';//"</h1>';
 		}
 		$weight = $_GET['weight'];
+
 		include ("submission.php");
+		//check to see if this user has made a submission
 		
-		//define the weight classes
-	
-		// if (!isset($_POST['email'])) {
-		// 	header("Location: localhost:8888/bengalbrackets/signup.php");
-		// }
 		if (!isset ($_GET['weight'])) {
 			echo '<META http-equiv="refresh" content="0;url='.$url.$weight_classes[0].'">';//"</h1>';
 		}
@@ -39,6 +54,11 @@
 			header("Location: http://bengalbrackets.com");
 		}
 		
+		//check ot see if this user has made a submisison
+
+		$results = $db->query("SELECT netid, class FROM boxer_submissions WHERE netid = ".$email.", class = ".$weight);
+
+
 
 
 ?>
@@ -46,8 +66,8 @@
 
 <html>
 <head>
-<title> Jack </title>
-<link rel="stylesheet" type="text/css" href="css/style.css">
+<title> Bengalbrackets </title>
+<link rel="stylesheet" type="text/css" href="css1/style.css">
 </head>
 
 <body id="index">
@@ -66,7 +86,7 @@
 	<div id="main-nav">
 		
 		<ul>
-			<li> <a href="http://bengalbrackets.com"> Home Page </a> </li>
+			<li> <a href="http://bengalbrackets.com"> Home </a> </li>
 			<?php 
 			$number_classes = count($weight_classes);
 			$number_classes --;
@@ -77,7 +97,7 @@
 				if (strcmp($weight, $weight_classes[$x]) === 0) 
 					echo ' id="selected_weight" ';
 				echo '> '.$weight_classes[$x];
-				if ($x !== $number_classes) {
+				if ($x !== $number_classes && $x !== $number_classes-1) {
 					echo '-lbs  </a> </li>';
 				}
 				else {
@@ -101,7 +121,7 @@
 	$fight_number = 0;
 	
 	
-	$results = $db->query("SELECT name, netid, weight_class, bye FROM fighter_info WHERE weight_class =  '".$weight."'");
+	$results = $db->query("SELECT name, netid, weight_class, bye, seed FROM fighter_info WHERE weight_class =  '".$weight."' ORDER BY seed ASC");
 	// while ($row = $results->fetch(PDO::FETCH_ASSOC)) {
 	// 	echo $row['Name'];
 	// }
@@ -197,7 +217,7 @@
 	?>
 	<form action="<?php Echo($_SERVER['PHP_SELF']); ?>" method="post" id="sub"> 
 		<?php
-		echo '<input type="hidden" name="weight_class_number">';
+		echo '<input type="hidden" name="weight_class_number" value="'.$weight.'">';
 		for ($j=0; $j<$total_fights; $j++) {
 			echo '
 			<input type="hidden" name="bout'.$j.'" id="fight'.$j.'">
@@ -259,10 +279,13 @@
 	$("label").click(clicked);
 
 
-		function clicked () {
+	function clicked () {
+
 		if ($(this).attr("class") === "readonly") {
+
 			return false;
 		}
+
 		//for every fight, make sure the innerhtml of the label 
 		// is the same as the php
 
@@ -369,7 +392,7 @@
 	
 	function checkForByes () {
 		//iterate through all inputs, if we find a BYE, set other value to true
-		for (i=0; i< <?php echo $first_round_perm; ?>; i++) {
+		for (i=0; i< <?php echo $total_fights; ?>; i++) {
 			
 			//var label1 = $("label[for='"+'#firstOpt' + i"']");
 			var label2 = $('label[for=secondOpt'+i+']');
@@ -377,20 +400,24 @@
 
 			//alert (label1.html());
 			
-			if ($('#firstOpt' + i).attr("value")==="BYE") {
+			if ($('#firstOpt' + i).attr("value")==="BYE" || $('#firstOpt' + i).attr("value") === " BYE ") {
 				$('#secondOpt' + i).attr("checked", true);
 				$('#firstOpt' + i).addClass("readonly");
 				$('#secondOpt' + i).addClass("readonly");
+				clicked.call(label2);
 				label1.addClass("readonly");
 				label2.addClass("readonly");
+				
 			}
-			if ($('#secondOpt' + i).attr("value")==="BYE") {
+			if ($('#secondOpt' + i).attr("value")==="BYE" || $('#secondOpt' + i).attr("value")===" BYE ") {
 
 				$('#firstOpt' + i).attr("checked", true);
 				$('#firstOpt' + i).addClass("readonly");
 				$('#secondOpt' + i).addClass("readonly");
+				clicked.call(label1);
 				label1.addClass("readonly");
 				label2.addClass("readonly");
+			
 
 			}
 		}

@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title> Boxer Info </title>
-		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link rel="stylesheet" type="text/css" href="css1/style.css">
 	</head>
 	<body id="each_boxer">
 	
@@ -10,7 +10,7 @@
 	include ("database.php"); 
 
 	$boxer = $_GET['boxer'];
-	$query = "SELECT name, nickname, bio, netid, hometown, quote  FROM fighter_info WHERE netid = '" .$boxer."'";
+	$query = "SELECT name, nickname, bio, netid, hometown, quote, url  FROM fighter_info WHERE netid = '" .$boxer."'";
 	$results = $db->query($query);
 
 	
@@ -34,7 +34,13 @@
 			
 		echo '</table>';
 		echo '</div>';
-		echo '<img src="http://gdurl.com/Feic" width="120" id="userpic">';
+		if ($row['url']) {
+			echo '<img src="'.$row['url'].'" width="120" id="userpic">';
+		}
+		else {
+			echo '<img src="https://sakailogin.nd.edu/profile2-tool/images/no_image.gif" width="120" id="userpic">';
+		}
+		
 		echo '</div>';
 
 		
